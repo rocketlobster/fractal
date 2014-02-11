@@ -25,7 +25,7 @@ class Fractal < Magick::Image
     end
   end
 
-  def initialize pixel_width = 1000, max_stack_level = 8
+  def initialize pixel_width = 2000, max_stack_level = 8
     super pixel_width, pixel_width
     @stack_level = 0
     @max_stack_level = max_stack_level
