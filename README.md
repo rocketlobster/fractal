@@ -1,5 +1,6 @@
 # Fractal
 
-Rmagick && recursive function to draw a fractal
+- D3.js
+- Rmagick
 
-![Fractal Result](fractal.jpg)
+![Fractal Result](fractal_d3js.png)

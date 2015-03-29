@@ -1,0 +1,96 @@
+<html>
+<head>
+<script src="d3.js" charset="utf-8"></script>
+<style>
+body {
+  margin: auto;
+  position: relative;
+  width: 960px;
+}
+form {
+  position: absolute;
+  top: 200px;
+  right: 10px;
+}
+input
+{
+  font-size:30px;
+}
+</style>
+</head>
+<body>
+<form>
+    <input id="depth" type="number" value="7" min="1" max="10" step="1">
+</form>
+<svg class="chart"></svg>
+<script>
+function Coords(lat, long) {
+  this.lat  = lat;
+  this.long = long;
+}
+Coords.prototype.mid = function(coord) {
+  return new Coords((this.lat + coord.lat) / 2, (this.long + coord.long)/ 2)
+};
+
+var size = 800;
+
+function triangles(depth) {
+  var s1 = new Coords(0, 0),
+      s2 = new Coords(s1.lat + size, s1.long),
+      s3 = new Coords(s1.lat + size / 2, s1.long + size * Math.pow(3, 0.5) / 2),
+      t1 = [s1, s2, s3],
+      triangles = [[t1]];
+  var i = 0;
+  while(i < depth){
+    triangles.push(flatten(triangles[i].map(children)));
+        i++;
+  }
+  return flatten(triangles);
+}
+
+function flatten(array) {
+  var merged = [];
+  return merged.concat.apply(merged, array);
+}
+
+function children(triangle) {
+  var s1 = triangle[0], s2 = triangle[1], s3 = triangle[2];
+  var c1 = s1.mid(s3);
+  var c2 = s2.mid(s3);
+  var c3 = s1.mid(s2);
+  return [[s1, c3, c1], [c3, s2, c2], [c1, c2, s3]];
+}
+
+function coordString(d) {
+  return d[0].lat.toString() + "," + d[0].long + " " + d[1].lat + "," + d[1].long + " " + d[2].lat + "," + d[2].long
+}
+
+function draw(depth){
+
+var data = triangles(depth);
+var colorRange = d3.scale.linear()
+        .domain([0, data.length])
+        .range([0, 16777215]);
+  function dataColor(i) {
+    return Math.floor(colorRange(i)).toString(16);
+  }
+  var svg = d3.select(".chart")
+    .attr("width", size)
+    .attr("height", size)
+  .selectAll("polygon")
+    .data(data)
+
+  svg.enter()
+    .append("polygon")
+    .attr("points", coordString)
+    .attr("style", function(d, i){
+      return "fill:#" + dataColor(i) + ";stroke-width:0.0"; }
+      );
+
+  svg.exit().remove();
+}
+d3.select("#depth").on("change", function() { depth = console.log(this.value); draw(this.value) ; });
+draw(7);
+</script>
+</body>
+</html>
