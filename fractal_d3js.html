@@ -91,7 +91,7 @@ var colorRange = d3.scale.linear()
 
   svg.exit().remove();
 }
-d3.select("#depth").on("change", function() { depth = console.log(this.value); draw(this.value) ; });
+d3.select("#depth").on("change", function() { draw(this.value); });
 draw(7);
 </script>
 </body>
