@@ -1,6 +1,8 @@
-<html>
+<!doctype html>
+<html lang="en">
 <head>
-<script src="d3.js" charset="utf-8"></script>
+<meta charset="UTF-8">
+<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
 <style>
 body {
   margin: auto;
@@ -20,7 +22,7 @@ input
 </head>
 <body>
 <form>
-    <input id="depth" type="number" value="7" min="1" max="10" step="1">
+    <input id="depth" type="range" value="7" min="2" max="9" step="1">
 </form>
 <svg class="chart"></svg>
 <script>
