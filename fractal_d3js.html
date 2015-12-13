@@ -84,7 +84,7 @@ var colorRange = d3.scale.linear()
 
   svg.enter()
     .append("polygon")
-    .attr("points", coordString)
+  svg.attr("points", coordString)
     .attr("style", function(d, i){
       return "fill:#" + dataColor(i) + ";stroke-width:0.0"; }
       );
